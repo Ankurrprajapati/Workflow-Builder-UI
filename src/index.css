@@ -1,0 +1,255 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 20% 10%;
+    --foreground: 210 40% 98%;
+
+    --card: 220 20% 14%;
+    --card-foreground: 210 40% 98%;
+    --card-hover: 220 20% 18%;
+
+    --popover: 220 20% 12%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 217 91% 60%;
+    --primary-foreground: 210 40% 98%;
+    --primary-glow: 217 91% 70%;
+
+    --secondary: 220 20% 20%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 220 15% 25%;
+    --muted-foreground: 215 20% 55%;
+
+    --accent: 142 71% 45%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 210 40% 98%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 220 20% 10%;
+
+    --border: 220 15% 22%;
+    --input: 220 15% 22%;
+    --ring: 217 91% 60%;
+
+    --radius: 0.75rem;
+
+    /* Node-specific colors */
+    --node-start: 142 71% 45%;
+    --node-action: 217 91% 60%;
+    --node-branch: 280 65% 60%;
+    --node-end: 0 72% 51%;
+
+    /* Canvas */
+    --canvas-grid: 220 15% 15%;
+    --canvas-line: 220 15% 20%;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+    --shadow-glow: 0 0 20px hsl(var(--primary) / 0.3);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  code, .mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+@layer components {
+  .canvas-grid {
+    background-image: 
+      linear-gradient(hsl(var(--canvas-line)) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--canvas-line)) 1px, transparent 1px);
+    background-size: 20px 20px;
+    background-color: hsl(var(--background));
+  }
+
+  .node-card {
+    @apply relative rounded-lg border transition-all duration-200;
+    background: hsl(var(--card));
+    border-color: hsl(var(--border));
+    box-shadow: var(--shadow-md);
+  }
+
+  .node-card:hover {
+    background: hsl(var(--card-hover));
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-1px);
+  }
+
+  .node-card.selected {
+    border-color: hsl(var(--primary));
+    box-shadow: var(--shadow-glow);
+  }
+
+  .node-start {
+    border-left: 3px solid hsl(var(--node-start));
+  }
+
+  .node-action {
+    border-left: 3px solid hsl(var(--node-action));
+  }
+
+  .node-branch {
+    border-left: 3px solid hsl(var(--node-branch));
+  }
+
+  .node-end {
+    border-left: 3px solid hsl(var(--node-end));
+  }
+
+  .connection-line {
+    stroke: hsl(var(--muted-foreground));
+    stroke-width: 2;
+    fill: none;
+    transition: stroke 0.2s ease;
+  }
+
+  .connection-line:hover {
+    stroke: hsl(var(--primary));
+  }
+
+  .add-button {
+    @apply flex items-center justify-center rounded-full transition-all duration-200;
+    width: 24px;
+    height: 24px;
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    box-shadow: var(--shadow-sm);
+  }
+
+  .add-button:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-glow);
+  }
+
+  .toolbar-button {
+    @apply px-3 py-2 rounded-lg font-medium text-sm transition-all duration-200;
+    background: hsl(var(--secondary));
+    color: hsl(var(--foreground));
+  }
+
+  .toolbar-button:hover {
+    background: hsl(var(--muted));
+  }
+
+  .toolbar-button.primary {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+  }
+
+  .toolbar-button.primary:hover {
+    background: hsl(var(--primary-glow));
+  }
+
+  .dropdown-menu {
+    @apply absolute z-50 rounded-lg border p-1 min-w-[160px];
+    background: hsl(var(--popover));
+    border-color: hsl(var(--border));
+    box-shadow: var(--shadow-lg);
+    animation: fadeIn 0.15s ease-out;
+  }
+
+  .dropdown-item {
+    @apply w-full text-left px-3 py-2 rounded-md text-sm transition-colors duration-150;
+    color: hsl(var(--foreground));
+  }
+
+  .dropdown-item:hover {
+    background: hsl(var(--muted));
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-start {
+    background: hsl(var(--node-start) / 0.2);
+    color: hsl(var(--node-start));
+  }
+
+  .badge-action {
+    background: hsl(var(--node-action) / 0.2);
+    color: hsl(var(--node-action));
+  }
+
+  .badge-branch {
+    background: hsl(var(--node-branch) / 0.2);
+    color: hsl(var(--node-branch));
+  }
+
+  .badge-end {
+    background: hsl(var(--node-end) / 0.2);
+    color: hsl(var(--node-end));
+  }
+
+  .input-field {
+    @apply w-full px-3 py-2 rounded-lg border text-sm transition-all duration-200;
+    background: hsl(var(--secondary));
+    border-color: hsl(var(--border));
+    color: hsl(var(--foreground));
+  }
+
+  .input-field:focus {
+    outline: none;
+    border-color: hsl(var(--primary));
+    box-shadow: 0 0 0 2px hsl(var(--primary) / 0.2);
+  }
+
+  .branch-label {
+    @apply text-xs font-medium px-2 py-0.5 rounded;
+  }
+
+  .branch-true {
+    background: hsl(var(--accent) / 0.2);
+    color: hsl(var(--accent));
+  }
+
+  .branch-false {
+    background: hsl(var(--destructive) / 0.2);
+    color: hsl(var(--destructive));
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
